@@ -1,5 +1,6 @@
 package es.progcipfpbatoi.todolistspring.controllers;
 
+import es.progcipfpbatoi.todolistspring.exceptions.NotFoundException;
 import es.progcipfpbatoi.todolistspring.exceptions.TareaYaExistenteException;
 import es.progcipfpbatoi.todolistspring.model.entities.Tarea;
 import es.progcipfpbatoi.todolistspring.model.entities.TipusPrioritat;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Map;
 
 @Controller
@@ -50,5 +52,68 @@ public class TareaController {
         	return e.getMessage();
         }
     }
+    
+    @GetMapping("/tarea")
+    @ResponseBody
+    public String getTareaByCodigo(@RequestParam int code) {
+        try {
+            Tarea tarea = tareaRepository.get(code);
+            return "<html><body>" +
+                    "<h1>Tarea seleccionada</h1>" +
+                    "<p>Codi: " + tarea.getCodigo() + "</p>" +
+                    "<p>Usuario: " + tarea.getNombre() + "</p>" +
+                    "<p>Descripcion: " + tarea.getDescripcion() + "</p>" +
+                    "<p>Prioridad: " + tarea.getPrioritat() + "</p>" +
+                    "<p>Realitzada: " + tarea.getIsRealizada() + "</p>" +
+                    "<p>Venciment: " + tarea.getFechaVencimiento() + " a las " + tarea.getHoraVienciment() + " horas</p>" +
+                    "</body></html>";
+        } catch (NotFoundException e) {
+            return e.getMessage();
+        }
+    }
+    
+    @GetMapping("/tarea-delete")
+    @ResponseBody
+    public String deleteTareaByCodigo(@RequestParam int code) {
+        try {
+            Tarea tarea = tareaRepository.get(code);
+            tareaRepository.delete(tarea);
+            return "Tarea " + code + " borrada con exito";
+        } catch (NotFoundException e) {
+            return e.getMessage();
+        }
+    }
+    
+    @GetMapping("/tareas")
+    @ResponseBody
+    public String listarTareas() {
+        String filas = "";
+        for (Tarea tarea : tareaRepository.findAll()) {
+            filas += "<tr>" +
+                     "<td>" + tarea.getCodigo() + "</td>" +
+                     "<td>" + tarea.getDescripcion() + "</td>" +
+                     "<td>" + tarea.getFechaVencimiento() + "</td>" +
+                     "<td>" + tarea.getNombre() + "</td>" +
+                     "<td>" + (tarea.getIsRealizada() ? "Sí" : "No") + "</td>" +
+                     "<td><a href='/tarea?code=" + tarea.getCodigo() + "'>Ver detalle</a></td>" +
+                     "</tr>";
+        }
+
+        return "<html><body>" +
+               "<h1>Listado de tareas</h1>" +
+               "<table border='1' style='border-collapse: collapse;'>" +
+               "<tr>" +
+               "<th>Codigo</th>" +
+               "<th>Descripcion</th>" +
+               "<th>Doas Vencimiento</th>" +
+               "<th>Responsable</th>" +
+               "<th>Realizado</th>" +
+               "<th>Acciones</th>" +
+               "</tr>" +
+               filas + 
+               "</table>" +
+               "</body></html>";
+    }
+    
 
 }

@@ -32,6 +32,34 @@ public class Tarea {
         return codigo;
     }
 
+	public String getNombre() {
+		return nombre;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public LocalDateTime getCreadoEn() {
+		return creadoEn;
+	}
+
+	public TipusPrioritat getPrioritat() {
+		return prioritat;
+	}
+	
+	public boolean getIsRealizada() {
+		return realizada;
+	}
+
+	public LocalDate getFechaVencimiento() {
+		return fechaVencimiento;
+	}
+
+	public LocalTime getHoraVienciment() {
+		return horaVienciment;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(codigo, creadoEn, descripcion, nombre);
