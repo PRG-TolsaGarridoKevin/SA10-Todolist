@@ -6,11 +6,21 @@
 </head>
 <body>
 <h1>Añadir Nueva Tarea</h1>
-<form action="/tarea-add" method="post">
-    <label>Codigo: <input name="code" type="number" required></label><br>
-    <label>Nombre: <input name="user" type="text" required></label><br>
-    <label>Descripción: <input name="description" type="text" required></label><br>
-    <input type="submit" value="añadir" required>
-</form>
+	<form action="/tarea-add" method="post">
+		<label>Código: <input name="code" type="number" required></label><br>
+		<label>Usuario: <input name="user" type="text" required></label><br>
+		<label>Descripción: <input name="description" type="text" required></label><br>
+		<label>Prioridad:
+			<select name="prioritat" required>
+		    	<option value="ALTA">ALTA</option>
+		       	<option value="MITJANA">MITJANA</option>
+		        <option value="BAIXA">BAIXA</option>
+		 	</select>
+		</label><br>
+		<label>Realizada: <input name="realizada" type="checkbox" value="true"></label><br>
+		<label>Fecha vencimiento: <input name="fechaVencimiento" type="date" required></label><br>
+		<label>Hora vencimiento: <input name="horaVienciment" type="time" required></label><br>
+		<input type="submit" value="Añadir">
+	</form>
 </body>
 </html>

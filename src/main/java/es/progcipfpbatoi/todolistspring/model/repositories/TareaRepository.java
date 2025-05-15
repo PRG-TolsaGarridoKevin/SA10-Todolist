@@ -1,6 +1,7 @@
 package es.progcipfpbatoi.todolistspring.model.repositories;
 
 import es.progcipfpbatoi.todolistspring.exceptions.NotFoundException;
+import es.progcipfpbatoi.todolistspring.exceptions.TareaYaExistenteException;
 import es.progcipfpbatoi.todolistspring.model.entities.Tarea;
 
 import org.springframework.stereotype.Repository;
@@ -20,8 +21,12 @@ public class TareaRepository {
      * Añade la Tarea recibida como argumento a la base de datos en memoria
      * @param tarea
      */
-    public void add(Tarea tarea) {
-        this.tareas.add(tarea);
+    public void add(Tarea tarea) throws TareaYaExistenteException {
+    	if (tareas.contains(tarea)) {
+    		throw new TareaYaExistenteException("La tarea con codigo "+tarea.getCodigo()+" ya esta añadida");
+    	}else {
+    		this.tareas.add(tarea);
+    	} 
     }
 
     /**
